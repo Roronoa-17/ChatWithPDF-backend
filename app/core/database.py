@@ -3,6 +3,7 @@ from app.core.config import settings
 
 pool = AsyncConnectionPool(
     conninfo=settings.DATABASE_URL,
+    min_size=1,
     max_size=10,
     max_idle=120,  # Shrink pool if connections are idle for 2 minutes
     max_lifetime=300, # Forcefully replace connections every 5 minutes
