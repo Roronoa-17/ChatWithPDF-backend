@@ -12,5 +12,6 @@ class Settings(BaseModel):
         "DATABASE_URL",
         "postgresql://user:password@localhost:5432/rag_memory"
     )
+    GEMINI_MODEL_NAME: str = os.environ.get("GEMINI_MODEL_NAME", "")
     
 settings = Settings()
