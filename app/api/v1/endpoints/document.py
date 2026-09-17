@@ -1,13 +1,13 @@
 import os
 import tempfile
-from fastapi import APIRouter, UploadFile, File, HTTPException, status
+from fastapi import APIRouter, UploadFile, File, HTTPException, status, Form
 from app.schemas.document import DocumentUploadResponse
 from app.services.ingestion import ingest_pdf
 
 router = APIRouter()
 
 @router.post("/upload", response_model=DocumentUploadResponse) 
-async def upload_pdf(file: UploadFile = File(...)):
+async def upload_pdf(file: UploadFile = File(...), namespace: str = Form(...)):
     if not file.filename.lower().endswith(".pdf"):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -20,7 +20,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         tmp_path = tmp.name
 
     try:
-        total_chunks = ingest_pdf(tmp_path)
+        total_chunks = ingest_pdf(tmp_path, namespace)
         return DocumentUploadResponse(
             filename=file.filename,
             total_chunks=total_chunks,
@@ -29,7 +29,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            details=f"Failed to process document: {str(exc)}",
+            detail=f"Failed to process document: {str(exc)}",
         )
     finally:
         if os.path.exists(tmp_path):
