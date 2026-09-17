@@ -4,7 +4,7 @@ from app.services.vectorstore import embeddings
 from langchain_pinecone import PineconeVectorStore
 from app.core.config import settings
 
-def ingest_pdf(file_path: str):
+def ingest_pdf(file_path: str, namespace: str) -> int:
     loader = PyPDFLoader(file_path)
     documents = loader.load()
     
@@ -18,11 +18,14 @@ def ingest_pdf(file_path: str):
     if not chunks:
         return 0
     
+    print(f"DEBUG: Uploading {len(chunks)} chunks to Namespace: {namespace}")
+    
     PineconeVectorStore.from_documents(
         documents=chunks,
         embedding=embeddings,
         index_name=settings.PINECONE_INDEX_NAME,
-        pinecone_api_key=settings.PINECONE_API_KEY
+        pinecone_api_key=settings.PINECONE_API_KEY,
+        namespace=namespace # lock chunks to this specific ID
     )
     
     return len(chunks)
