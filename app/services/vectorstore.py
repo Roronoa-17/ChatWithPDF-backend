@@ -4,8 +4,9 @@ from app.core.config import settings
 
 embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-2", google_api_key=settings.GOOGLE_API_KEY,)
 
-def get_vectorstore() -> PineconeVectorStore:
+def get_vectorstore(namespace: str = None) -> PineconeVectorStore:
     return PineconeVectorStore(
         index_name = settings.PINECONE_INDEX_NAME,
-        embedding=embeddings
+        embedding=embeddings,
+        namespace=namespace
     )
