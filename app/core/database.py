@@ -5,8 +5,8 @@ pool = AsyncConnectionPool(
     conninfo=settings.DATABASE_URL,
     min_size=1,
     max_size=10,
-    max_idle=120,  # Shrink pool if connections are idle for 2 minutes
-    max_lifetime=300, # Forcefully replace connections every 5 minutes
+    max_idle=0,  # Shrink pool if connections are idle for 2 minutes
+    max_lifetime=240, # Forcefully replace connections every 5 minutes
     kwargs={
         "autocommit":True, 
         "prepare_threshold": 0,
