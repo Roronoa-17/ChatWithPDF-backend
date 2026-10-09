@@ -1,8 +1,5 @@
  # ChatWithPDF using RAG (Retrival Augmented Generation)
-
-This web application allows users to chat with their uploaded PDF documents using LLAMA 3 through NVIDIA NIM and Retrieval Augmented Generation (RAG).
-
-## Try it on huggingface :- https://huggingface.co/spaces/priyesh17/ChatWithPDF
+ 
 ## Features
 
 - PDF upload and processing
