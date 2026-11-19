@@ -7,6 +7,7 @@ pool = AsyncConnectionPool(
     max_size=10,
     max_idle=0,  # Shrink pool if connections are idle for 2 minutes
     max_lifetime=240, # Forcefully replace connections every 5 minutes
+    check=AsyncConnectionPool.check_connection,
     kwargs={
         "autocommit":True, 
         "prepare_threshold": 0,
